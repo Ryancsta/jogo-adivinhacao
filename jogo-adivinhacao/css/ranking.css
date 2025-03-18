@@ -1,0 +1,96 @@
+/* Estilos para o sistema de ranking com abas */
+
+/* Container de abas */
+.ranking-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+
+/* Botões de aba */
+.ranking-tab {
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ranking-tab.active {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.ranking-tab:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+/* Conteúdo do ranking */
+.ranking-content {
+  padding: 10px 0;
+}
+
+/* Destacar cards do ranking de conquistas */
+#achievements-ranking .player-card {
+  border-left: 3px solid #4CAF50;
+  transition: transform 0.2s ease;
+}
+
+#achievements-ranking .player-card:hover {
+  transform: translateX(5px);
+}
+
+/* Indicadores de posição */
+.player-card:nth-child(1) .profile-pic::after {
+  content: "🥇";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 16px;
+}
+
+.player-card:nth-child(2) .profile-pic::after {
+  content: "🥈";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 16px;
+}
+
+.player-card:nth-child(3) .profile-pic::after {
+  content: "🥉";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 16px;
+}
+
+/* Melhorias no estilo dos cards de jogador */
+.player-card {
+  position: relative;
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+.player-card:hover {
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.profile-pic {
+  position: relative;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 480px) {
+  .ranking-tab {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+}

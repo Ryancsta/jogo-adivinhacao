@@ -74,4 +74,32 @@ const gameState = {
             });
         });
     }
+    
+    // Inicializar o sistema de conquistas
+    if (typeof Achievements !== 'undefined' && Achievements.init) {
+        Achievements.init();
+    }
+    
+    // Inicializar o sistema de chat
+    if (typeof Chat !== 'undefined' && Chat.init) {
+        // O chat será inicializado quando o jogo começar
+        // para não aparecer em outras telas
+        
+        const gameStartObserver = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    const gameScreen = document.getElementById('game-screen');
+                    if (gameScreen && gameScreen.classList.contains('active')) {
+                        Chat.init();
+                        gameStartObserver.disconnect(); // Inicializa apenas uma vez
+                    }
+                }
+            });
+        });
+        
+        const gameScreen = document.getElementById('game-screen');
+        if (gameScreen) {
+            gameStartObserver.observe(gameScreen, { attributes: true });
+        }
+    }
   });
