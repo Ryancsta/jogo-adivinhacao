@@ -44,6 +44,10 @@ const Game = {
         confirmNo: document.getElementById('confirm-no')
     },
     
+    // Variável para rastrear o tempo total do jogo
+    gameDuration: 0,
+    gameStartTime: 0,
+    
     // Inicializar jogo
     init() {
         // Event listeners
@@ -260,8 +264,10 @@ const Game = {
         gameState.guesses = [];
         gameState.opponentGuesses = [];
         
-        // Limpar timer
+        // Resetar o temporizador e dados de duração
         clearInterval(gameState.timerInterval);
+        this.gameStartTime = 0;
+        this.gameDuration = 0;
         
         // Limpar elementos da interface
         this.elements.playerNumbersInput.value = '';
@@ -342,6 +348,11 @@ const Game = {
     
     // Iniciar timer
     startTimer() {
+        // Registrar o tempo de início para cálculo da duração total
+        if (this.gameStartTime === 0) {
+            this.gameStartTime = Date.now();
+        }
+        
         gameState.timeLeft = 60;
         this.elements.timerDisplay.textContent = gameState.timeLeft;
         
@@ -349,6 +360,9 @@ const Game = {
         gameState.timerInterval = setInterval(() => {
             gameState.timeLeft--;
             this.elements.timerDisplay.textContent = gameState.timeLeft;
+            
+            // Atualizar a duração total do jogo
+            this.gameDuration = Math.floor((Date.now() - this.gameStartTime) / 1000);
             
             if (gameState.timeLeft <= 10) {
                 this.elements.timerDisplay.style.color = "#d9534f";
@@ -422,49 +436,58 @@ const Game = {
     },
     
     // Mostrar resultado do jogo
-    // Adicionando integração com o sistema de conquistas no Game.js
-
-// Modificar o método showGameResult para registrar estatísticas da partida:
-showGameResult(playerWon) {
-    // Parar timer
-    clearInterval(gameState.timerInterval);
-    
-    // Parar a música de fundo do jogo
-    if (typeof Audio !== 'undefined' && Audio.stopBackgroundMusic) {
-        Audio.stopBackgroundMusic();
-    }
-    
-    // Registrar estatísticas para conquistas
-    if (typeof Achievements !== 'undefined') {
-        Achievements.registerGameEnd(
-            playerWon, 
-            gameState.guesses.length, 
-            gameState.opponentGuesses
-        );
-    }
-    
-    if (playerWon) {
-        this.elements.resultTitle.textContent = "Parabéns!";
-        this.elements.resultMessage.textContent = "Você venceu! Acertou todos os números do oponente.";
-        this.elements.resultMessage.className = "message success";
+    showGameResult(playerWon) {
+        // Parar timer
+        clearInterval(gameState.timerInterval);
         
-        // Tocar som de vitória
-        if (typeof Audio !== 'undefined') {
-            Audio.play('victory');
+        // Parar a música de fundo do jogo
+        if (typeof Audio !== 'undefined' && Audio.stopBackgroundMusic) {
+            Audio.stopBackgroundMusic();
         }
-    } else {
-        this.elements.resultTitle.textContent = "Você perdeu!";
-        this.elements.resultMessage.textContent = "O oponente adivinhou seus números primeiro.";
-        this.elements.resultMessage.className = "message error";
         
-        // Tocar som de derrota
-        if (typeof Audio !== 'undefined') {
-            Audio.play('defeat');
+        // Registrar estatísticas para conquistas
+        if (typeof Achievements !== 'undefined') {
+            Achievements.registerGameEnd(
+                playerWon, 
+                gameState.guesses.length, 
+                gameState.opponentGuesses
+            );
         }
-    }
-    
-    UI.showScreen('result');
-},
+        
+        // Salvar o replay da partida
+        if (typeof Replay !== 'undefined') {
+            Replay.saveGameReplay(
+                playerWon,
+                gameState.playerNumbers,
+                gameState.opponentNumbers,
+                gameState.guesses,
+                gameState.opponentGuesses,
+                this.gameDuration
+            );
+        }
+        
+        if (playerWon) {
+            this.elements.resultTitle.textContent = "Parabéns!";
+            this.elements.resultMessage.textContent = "Você venceu! Acertou todos os números do oponente.";
+            this.elements.resultMessage.className = "message success";
+            
+            // Tocar som de vitória
+            if (typeof Audio !== 'undefined') {
+                Audio.play('victory');
+            }
+        } else {
+            this.elements.resultTitle.textContent = "Você perdeu!";
+            this.elements.resultMessage.textContent = "O oponente adivinhou seus números primeiro.";
+            this.elements.resultMessage.className = "message error";
+            
+            // Tocar som de derrota
+            if (typeof Audio !== 'undefined') {
+                Audio.play('defeat');
+            }
+        }
+        
+        UI.showScreen('result');
+    },
     
     // Atualizar debug display
     updateDebugDisplay() {

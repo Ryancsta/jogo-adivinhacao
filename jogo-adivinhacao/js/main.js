@@ -80,6 +80,11 @@ const gameState = {
         Achievements.init();
     }
     
+    // Inicializar o sistema de replay
+    if (typeof Replay !== 'undefined' && Replay.init) {
+        Replay.init();
+    }
+    
     // Inicializar o sistema de chat
     if (typeof Chat !== 'undefined' && Chat.init) {
         // O chat será inicializado quando o jogo começar

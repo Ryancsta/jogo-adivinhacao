@@ -1,0 +1,230 @@
+/* Estilos para o sistema de replay de partidas */
+
+/* Modal de replay */
+.replay-modal-content {
+  max-width: 800px;
+  max-height: 90vh;
+  width: 90%;
+  padding: 0;
+}
+
+.replay-header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.replay-header h3 {
+  margin: 0;
+  color: white;
+  text-align: left;
+}
+
+/* Container principal com duas colunas */
+.replay-container {
+  display: flex;
+  height: calc(90vh - 70px);
+  max-height: 600px;
+}
+
+/* Lista de partidas */
+.replay-list {
+  flex: 0 0 300px;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+  background-color: #f8f8f8;
+}
+
+.replay-empty-message {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.replay-item {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.replay-item:hover {
+  background-color: #f0f0f0;
+}
+
+.replay-result {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.replay-result.victory {
+  color: #4CAF50;
+}
+
+.replay-result.defeat {
+  color: #d9534f;
+}
+
+.replay-item-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.replay-item-stats {
+  display: flex;
+  gap: 10px;
+}
+
+/* Player de replay */
+.replay-player {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.replay-info {
+  margin-bottom: 15px;
+}
+
+.replay-info h4 {
+  margin: 0 0 5px 0;
+}
+
+.victory-title {
+  color: #4CAF50;
+}
+
+.defeat-title {
+  color: #d9534f;
+}
+
+.replay-board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.replay-numbers {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.replay-player-numbers, 
+.replay-opponent-numbers {
+  font-weight: bold;
+}
+
+.replay-history {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: white;
+}
+
+.replay-message {
+  text-align: center;
+  color: #666;
+  margin: 30px 0;
+}
+
+.replay-end-message {
+  text-align: center;
+  font-weight: bold;
+  margin: 30px 0;
+  color: #4CAF50;
+}
+
+.replay-guess {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  animation: fadeIn 0.5s;
+}
+
+.player-guess {
+  background-color: #f0f8ff;
+  border-left: 4px solid #4682B4;
+}
+
+.opponent-guess {
+  background-color: #fff0f0;
+  border-left: 4px solid #d9534f;
+}
+
+.replay-turn-indicator {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.replay-guess-numbers {
+  font-size: 1.5em;
+  margin: 5px 0;
+}
+
+.replay-hits {
+  font-weight: bold;
+}
+
+/* Controles de reprodução */
+.replay-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.replay-speed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#replay-speed-control {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .replay-container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .replay-list {
+    flex: none;
+    width: 100%;
+    max-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .replay-player {
+    height: 400px;
+  }
+}
