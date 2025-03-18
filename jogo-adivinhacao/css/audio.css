@@ -1,0 +1,60 @@
+/* Estilos para o sistema de áudio */
+
+.mute-btn {
+  transition: transform 0.2s ease;
+}
+
+.mute-btn:hover {
+  transform: scale(1.1);
+}
+
+.mute-btn:active {
+  transform: scale(0.95);
+}
+
+/* Animação para feedback visual quando um som é reproduzido */
+@keyframes soundFeedback {
+  0% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.7; transform: scale(1); }
+}
+
+.sound-feedback {
+  animation: soundFeedback 0.3s ease;
+}
+
+/* Volume slider (opcional) */
+.volume-control {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.volume-slider {
+  width: 100px;
+  height: 5px;
+  margin-left: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+  border: none;
+}

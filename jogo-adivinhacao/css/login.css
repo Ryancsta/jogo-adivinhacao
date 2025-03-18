@@ -1,0 +1,51 @@
+/* Estilos específicos para o login e registro */
+#login-screen {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+#register-form .profile-placeholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#register-form .profile-pic-initial {
+  font-weight: bold;
+  font-size: 40px;
+  color: #666;
+}
+
+#register-form img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Estilos para upload de arquivo */
+.file-input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border: 1px dashed #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.upload-preview {
+  margin-top: 5px;
+}
+
+.upload-preview p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}

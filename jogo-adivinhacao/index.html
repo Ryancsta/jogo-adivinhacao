@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação de Números</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/audio.css">
+</head>
+<body>
+    <!-- Cabeçalho com informações do usuário logado -->
+    <div id="user-header" class="container header" style="display: none;">
+        <div class="user-info">
+            <div class="profile-pic" id="header-profile-pic">
+                <div class="profile-pic-initial" id="header-profile-initial"></div>
+            </div>
+            <span id="header-username">Usuário</span>
+        </div>
+        <button class="logout-btn" id="logout-btn">Sair</button>
+    </div>
+    
+    <div class="container">
+        <h1>Jogo de Adivinhação de Números</h1>
+        
+        <!-- TELA: Login e Registro -->
+        <div id="login-screen" class="screen active">
+            <h2>Bem-vindo!</h2>
+            <div id="login-form" class="input-area">
+                <h3>Entrar</h3>
+                <div class="input-group">
+                    <label for="login-username">Nome de usuário:</label>
+                    <input type="text" id="login-username" placeholder="Seu nome de usuário">
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Senha:</label>
+                    <input type="password" id="login-password" placeholder="Sua senha">
+                </div>
+                <button id="login-btn" class="btn">Entrar</button>
+                <button id="show-register-btn" class="btn btn-blue">Criar Conta</button>
+                <div id="login-message" class="message"></div>
+            </div>
+            
+            <div id="register-form" class="input-area" style="display: none;">
+                <h3>Criar Conta</h3>
+                <div class="profile-placeholder" id="profile-preview">
+                    <div class="profile-pic-initial" id="profile-preview-initial"></div>
+                </div>
+                <div class="input-group">
+                    <label for="register-firstname">Nome:</label>
+                    <input type="text" id="register-firstname" placeholder="Seu nome">
+                </div>
+                <div class="input-group">
+                    <label for="register-lastname">Sobrenome:</label>
+                    <input type="text" id="register-lastname" placeholder="Seu sobrenome">
+                </div>
+                <div class="input-group">
+                    <label for="register-username">Nome de usuário:</label>
+                    <input type="text" id="register-username" placeholder="Escolha um nome de usuário">
+                </div>
+                <div class="input-group">
+                    <label for="register-password">Senha:</label>
+                    <input type="password" id="register-password" placeholder="Escolha uma senha">
+                </div>
+                <div class="input-group">
+                    <label for="profile-pic-upload">Foto de perfil:</label>
+                    <input type="file" id="profile-pic-upload" accept="image/*" class="file-input">
+                    <div class="upload-preview">
+                        <p>Ou use uma URL:</p>
+                        <input type="text" id="profile-pic-url" placeholder="https://exemplo.com/sua-foto.jpg">
+                    </div>
+                </div>
+                <button id="register-btn" class="btn">Registrar</button>
+                <button id="back-to-login-btn" class="btn">Voltar</button>
+                <div id="register-message" class="message"></div>
+            </div>
+        </div>
+        
+        <!-- TELA: Menu Principal -->
+        <div id="menu-screen" class="screen">
+            <h2>Menu Principal</h2>
+            <button id="new-game-btn" class="btn">Novo Jogo</button>
+            <button id="ranking-btn" class="btn">Ver Ranking</button>
+            <button id="profile-btn" class="btn">Meu Perfil</button>
+            
+            <div id="ranking-display" style="display: none;">
+                <h3>Ranking de Jogadores</h3>
+                <div id="ranking-list">
+                    <!-- Ranking será preenchido aqui -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- TELA: Perfil do Usuário -->
+        <div id="profile-screen" class="screen">
+            <h2>Meu Perfil</h2>
+            <div class="profile-placeholder" id="profile-display">
+                <div class="profile-pic-initial" id="profile-display-initial"></div>
+            </div>
+            <div class="input-area">
+                <div class="input-group">
+                    <label for="edit-firstname">Nome:</label>
+                    <input type="text" id="edit-firstname" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="edit-lastname">Sobrenome:</label>
+                    <input type="text" id="edit-lastname" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="edit-username">Nome de usuário:</label>
+                    <input type="text" id="edit-username" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="edit-pic-upload">Foto de perfil:</label>
+                    <input type="file" id="edit-pic-upload" accept="image/*" class="file-input">
+                    <div class="upload-preview">
+                        <p>Ou use uma URL:</p>
+                        <input type="text" id="edit-pic-url" placeholder="https://exemplo.com/sua-foto.jpg">
+                    </div>
+                </div>
+                <button id="update-profile-btn" class="btn">Atualizar Foto</button>
+                <button id="back-to-menu-from-profile-btn" class="btn">Voltar ao Menu</button>
+                <div id="profile-message" class="message"></div>
+            </div>
+            
+            <div class="stats-area">
+                <h3>Estatísticas</h3>
+                <p>Total de vitórias: <span id="user-wins">0</span></p>
+                <p>Partidas jogadas: <span id="games-played">0</span></p>
+            </div>
+        </div>
+        
+        <!-- TELA: Escolha de Números -->
+        <div id="setup-screen" class="screen">
+            <h2>Configuração do Jogo</h2>
+            <p>Escolha seus 3 números (de 1 a 9, sem repetições):</p>
+            <div class="input-area">
+                <input type="text" id="player-numbers-input" placeholder="Ex: 345" maxlength="3">
+                <button id="confirm-numbers-btn" class="btn">Confirmar</button>
+                <button id="back-to-menu-btn" class="btn">Voltar ao Menu</button>
+            </div>
+            <div id="setup-message" class="message"></div>
+        </div>
+        
+        <!-- TELA: Aguardando Oponente -->
+        <div id="waiting-screen" class="screen">
+            <h2>Aguardando Oponente</h2>
+            <p>O oponente está escolhendo seus números...</p>
+            <div class="message info">
+                Seus números: <span id="your-numbers-display"></span>
+            </div>
+        </div>
+        
+        <!-- TELA: Jogo Principal -->
+        <div id="game-screen" class="screen">
+            <h2>Sua vez de adivinhar</h2>
+            <div class="timer" id="timer-display">60</div>
+            <div class="input-area">
+                <input type="text" id="guess-input" placeholder="Digite 3 números" maxlength="3">
+                <button id="guess-btn" class="btn">Tentar</button>
+                <button id="give-up-btn" class="btn btn-red">Desistir</button>
+            </div>
+            <div id="guess-message" class="message"></div>
+            
+            <div class="history">
+                <h3>Histórico de Tentativas</h3>
+                <div id="history-list"></div>
+            </div>
+            
+            <div class="debug">
+                <p>Seus números: <span id="debug-your-numbers"></span></p>
+                <p>Números do oponente: <span id="debug-opponent-numbers"></span></p>
+            </div>
+        </div>
+        
+        <!-- TELA: Turno do Oponente -->
+        <div id="opponent-turn-screen" class="screen">
+            <h2>Vez do Oponente</h2>
+            <p>O oponente está tentando adivinhar seus números...</p>
+        </div>
+        
+        <!-- TELA: Resultado -->
+        <div id="result-screen" class="screen">
+            <h2 id="result-title">Fim de Jogo</h2>
+            <div id="result-message" class="message"></div>
+            <button id="play-again-btn" class="btn">Jogar Novamente</button>
+            <button id="menu-btn" class="btn">Voltar ao Menu</button>
+        </div>
+        
+        <!-- Modal de Confirmação -->
+        <div id="confirm-modal" class="modal">
+            <div class="modal-content">
+                <h3>Desistir do jogo?</h3>
+                <p>Você realmente deseja desistir desta partida?</p>
+                <button id="confirm-yes" class="btn">Sim</button>
+                <button id="confirm-no" class="btn">Não</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/ranking.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

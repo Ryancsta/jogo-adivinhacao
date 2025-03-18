@@ -1,0 +1,22 @@
+/* Estilos para o jogo */
+.timer {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
+  color: #333;
+}
+
+.history {
+  margin: 20px auto;
+  max-width: 300px;
+  text-align: left;
+}
+
+.debug {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
