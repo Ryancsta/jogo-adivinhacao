@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="css/achievements.css">
     <link rel="stylesheet" href="css/ranking.css">
     <link rel="stylesheet" href="css/replay.css">
+    <link rel="stylesheet" href="css/online.css">
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <!-- Cabeçalho com informações do usuário logado -->
@@ -85,7 +87,8 @@
         <!-- TELA: Menu Principal -->
         <div id="menu-screen" class="screen">
             <h2>Menu Principal</h2>
-            <button id="new-game-btn" class="btn">Novo Jogo</button>
+            <button id="new-game-btn" class="btn">Novo Jogo Local</button>
+            <button id="online-game-btn" class="btn btn-blue">Novo Jogo Online</button>
             <button id="ranking-btn" class="btn">Ver Ranking</button>
             <button id="profile-btn" class="btn">Meu Perfil</button>
             
@@ -136,6 +139,32 @@
             </div>
         </div>
         
+        <!-- TELA: Procurar Partida Online -->
+        <div id="online-setup-screen" class="screen">
+            <h2>Jogo Online</h2>
+            <p>Conecte-se com outro jogador para começar uma partida.</p>
+            
+            <div class="opponent-area" id="opponent-info" style="display: none;">
+                <h3>Oponente:</h3>
+                <div class="player-card">
+                    <div class="profile-pic" id="opponent-pic">
+                        <div class="profile-pic-initial" id="opponent-initial"></div>
+                    </div>
+                    <div class="player-info">
+                        <span id="opponent-name">Aguardando oponente...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <button id="find-match-btn" class="btn">Procurar Partida</button>
+                <button id="cancel-match-btn" class="btn" style="display: none;">Cancelar</button>
+                <button id="back-to-menu-from-online-btn" class="btn">Voltar ao Menu</button>
+                <div id="match-status" class="message"></div>
+                <div id="room-id-display" class="room-id"></div>
+            </div>
+        </div>
+        
         <!-- TELA: Escolha de Números -->
         <div id="setup-screen" class="screen">
             <h2>Configuração do Jogo</h2>
@@ -160,6 +189,7 @@
         <!-- TELA: Jogo Principal -->
         <div id="game-screen" class="screen">
             <h2>Sua vez de adivinhar</h2>
+            <div class="turn-indicator" id="turn-indicator">Aguardando...</div>
             <div class="timer" id="timer-display">60</div>
             <div class="input-area">
                 <input type="text" id="guess-input" placeholder="Digite 3 números" maxlength="3">
@@ -182,7 +212,7 @@
         <!-- TELA: Turno do Oponente -->
         <div id="opponent-turn-screen" class="screen">
             <h2>Vez do Oponente</h2>
-            <p>O oponente está tentando adivinhar seus números...</p>
+            <p>O oponente <span id="opponent-name-turn"></span> está tentando adivinhar seus números...</p>
         </div>
         
         <!-- TELA: Resultado -->
@@ -208,6 +238,7 @@
     <script src="js/auth.js"></script>
     <script src="js/profile.js"></script>
     <script src="js/ranking.js"></script>
+    <script src="js/socket-client.js"></script>
     <script src="js/game.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/chat.js"></script>
